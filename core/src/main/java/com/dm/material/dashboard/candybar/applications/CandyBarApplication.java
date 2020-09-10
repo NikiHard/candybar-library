@@ -2,9 +2,9 @@ package com.dm.material.dashboard.candybar.applications;
 
 import android.app.Application;
 import android.content.Intent;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dm.material.dashboard.candybar.R;
 import com.dm.material.dashboard.candybar.activities.CandyBarCrashReport;
@@ -23,7 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 
 /*
  * CandyBar - Material Dashboard
@@ -66,9 +68,12 @@ public abstract class CandyBarApplication extends Application implements Applica
         if (!ImageLoader.getInstance().isInited())
             ImageLoader.getInstance().init(ImageConfig.getImageLoaderConfiguration(this));
 
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Font-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/Font-Regular.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
                 .build());
 
         //Enable or disable logging
